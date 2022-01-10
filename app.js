@@ -2,12 +2,14 @@
 // let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 const noteListDiv = document.querySelector('.note-list');
 const arcNoteListDiv = document.querySelector('.archive-note-list');
+const counterDiv = document.querySelector('.counter');
 let noteID = 1;
 function Note(id, title, content, category, date){
     this.id = id;
     this.title = title;
     this.content = content;
     this.category = category;
+    this.date = date;
     
 }
 
@@ -16,6 +18,7 @@ function eventListeners(){
     document.addEventListener('DOMContentLoaded', displayNotes);
     document.addEventListener('DOMContentLoaded', displayArcNotes);
     document.getElementById('add-note-btn').addEventListener('click', addNewNote);
+   
     arcNoteListDiv.addEventListener('click',deleteArcNote);
     arcNoteListDiv.addEventListener('click', unarchiveNote );
     noteListDiv.addEventListener('click', deleteNote);
@@ -53,6 +56,7 @@ function addNewNote(){
         noteTitle.value = "";
         noteContent.value = "";
     }
+    
     counter();
 }
 
@@ -151,6 +155,7 @@ function deleteNote(e){
         });
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
+    
 }
 
 function deleteArcNote(e){
@@ -185,6 +190,7 @@ function archiveNote(e){
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
     
+    
 }
 
 function unarchiveNote(e){
@@ -206,6 +212,7 @@ function unarchiveNote(e){
         localStorage.setItem('arc', JSON.stringify(newNotesList));
     }
     
+    
 }
 
 
@@ -221,22 +228,29 @@ function deleteAllNotes(){
     noteID = 1; // resetting noteID to 1
 }
 
+
+
 function counter(){
     let notes = getDataFromStorage();
     let arc =  arcDataFromStorage();
+    
+
 
     const taskCategory = notes.filter(function(e){
         return e.category =="Task";
       });
 
     console.log(taskCategory.length + " Task");
+  
+    
 
     const randomCategory = notes.filter(function(e){
         return e.category =="Random Thought";
       });
 
     console.log(randomCategory.length + " Random");
-
+   
+    
     const ideaCategory = notes.filter(function(e){
         return e.category =="Idea";
       });
@@ -262,7 +276,33 @@ function counter(){
 
     console.log(aideaCategory.length + " Idea Archived");
 
-
-}
+    const div = document.createElement('div');
+    
+    div.classList.add('counter-item');
+    
+    
+    div.innerHTML = `
+        <h3>3333</h3>
+        ${taskCategory.length}
+        ${randomCategory.length}
+        ${ideaCategory.length}
+        
+      
+      
+    `;
+    counterDiv.appendChild(div);
+  
+};
 
 counter();
+
+function updateCounter(){
+  const x = document.querySelectorAll('counter-item');
+  x.innerHTML = "";
+   
+}
+
+
+
+
+

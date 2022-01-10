@@ -102,3 +102,8 @@ body{
 .warning{
     border-color: rgba(255, 111, 89, 0.8)!important;
 }
+
+.counter{
+    display:flex;
+    
+}
