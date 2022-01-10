@@ -24,6 +24,8 @@ function eventListeners(){
     arcNoteListDiv.addEventListener('click', unarchiveNote );
     noteListDiv.addEventListener('click', deleteNote);
     noteListDiv.addEventListener('click', archiveNote);
+    noteListDiv.addEventListener('click', editNote);
+   
    
 
     document.getElementById('delete-all-btn').addEventListener('click', deleteAllNotes);
@@ -178,6 +180,8 @@ function deleteArcNote(e){
         });
         localStorage.setItem('arc', JSON.stringify(newNotesList));
     }
+    updateCounter();
+    counter();
 }
 
 function archiveNote(e){
@@ -199,7 +203,8 @@ function archiveNote(e){
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
     
-    
+    updateCounter();
+    counter();
 }
 
 function unarchiveNote(e){
@@ -221,7 +226,8 @@ function unarchiveNote(e){
         localStorage.setItem('arc', JSON.stringify(newNotesList));
     }
     
-  
+    updateCounter();
+    counter();
 }
 
 
@@ -277,10 +283,14 @@ function counter(){
     
     
     div.innerHTML = `
-        <h3>3333</h3>
-        ${taskCategory.length}
-        ${randomCategory.length}
-        ${ideaCategory.length}
+        <h3>Active</h3>
+        <p>Task: ${taskCategory.length}</p>
+        <p>Random thought ${randomCategory.length}</p>
+        <p>Idea ${ideaCategory.length}</p>
+        <h3>Archived</h3>
+        <p>Task: ${ataskCategory.length}</p>
+        <p>Random thought ${arandomCategory.length}</p>
+        <p>Idea ${aideaCategory.length}</p>
         
       
       
@@ -335,9 +345,32 @@ function activeDiv(){
 
 
 function updateCounter(){
-    const parent = document.getElementById('counter');
-    const  child = document.getElementById('counter-item');
+    const parent = document.getElementById('counter'),
+          child = document.getElementById('counter-item');
     parent.removeChild(child);
     
 }
+
+function editNote(e){
+    const noteTitleE = document.getElementById('note-title'),
+          noteContent = document.getElementById('note-content');
+
+    if(e.target.classList.contains('edit-note-btn')){
+        
+       
+        //console.log(e.target.parentElement);
+        e.target.parentElement.remove(); // removing from DOM
+        let divID = e.target.parentElement.dataset.id;
+        let notes = arcDataFromStorage();
+       
+        let newNotesList = notes.filter(item => {
+            return item.id !== parseInt(divID);
+        });
+        noteTitleE.value = editedTitle.items.id;
+        localStorage.setItem('notes', JSON.stringify(newNotesList));
+    }
+      
+
+}
+
 
