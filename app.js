@@ -16,8 +16,11 @@ function eventListeners(){
     document.addEventListener('DOMContentLoaded', displayNotes);
     document.addEventListener('DOMContentLoaded', displayArcNotes);
     document.getElementById('add-note-btn').addEventListener('click', addNewNote);
+    arcNoteListDiv.addEventListener('click',deleteArcNote);
+    arcNoteListDiv.addEventListener('click', unarchiveNote );
     noteListDiv.addEventListener('click', deleteNote);
     noteListDiv.addEventListener('click', archiveNote);
+
     document.getElementById('delete-all-btn').addEventListener('click', deleteAllNotes);
 }
 
@@ -96,13 +99,13 @@ function createArcNote(noteItem){
         <h3>${noteItem.title}</h3>
         <p>${noteItem.content}</p>
         <p>${noteItem.category}</p>
-        <button type = "button" class = "btn delete-note-btn">
+        <button type = "button" class = "btn arc-delete-note-btn">
         <span><i class = "fas fa-trash"></i></span>
         Remove
         </button>
-        <button type = "button" class = "btn archive-note-btn">
+        <button type = "button" class = "btn unarchive-note-btn">
        
-        Archive
+        Unarchive
         </button>
     `;
     arcNoteListDiv.appendChild(div);
@@ -150,6 +153,19 @@ function deleteNote(e){
     }
 }
 
+function deleteArcNote(e){
+    if(e.target.classList.contains('arc-delete-note-btn')){
+        //console.log(e.target.parentElement);
+        e.target.parentElement.remove(); // removing from DOM
+        let divID = e.target.parentElement.dataset.id;
+        let arc = arcDataFromStorage();
+        let newNotesList = arc.filter(item => {
+            return item.id !== parseInt(divID);
+        });
+        localStorage.setItem('arc', JSON.stringify(newNotesList));
+    }
+}
+
 function archiveNote(e){
     if(e.target.classList.contains('archive-note-btn')){
         //console.log(e.target.parentElement);
@@ -168,7 +184,30 @@ function archiveNote(e){
         });
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
+    
 }
+
+function unarchiveNote(e){
+    if(e.target.classList.contains('unarchive-note-btn')){
+        //console.log(e.target.parentElement);
+        e.target.parentElement.remove();// removing from DOM
+        let divID = e.target.parentElement.dataset.id;
+        let notes = getDataFromStorage();
+        let arc =  arcDataFromStorage();
+
+        let unarcNote = arc.filter(item => {
+            return item.id == parseInt(divID);
+        });
+       let unarcNotesList = notes.concat(unarcNote);
+        localStorage.setItem('notes', JSON.stringify(unarcNotesList));
+        let newNotesList = arc.filter(item => {
+            return item.id !== parseInt(divID);
+        });
+        localStorage.setItem('arc', JSON.stringify(newNotesList));
+    }
+    
+}
+
 
 // delete all notes
 function deleteAllNotes(){
