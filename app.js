@@ -18,11 +18,13 @@ function eventListeners(){
     document.addEventListener('DOMContentLoaded', displayNotes);
     document.addEventListener('DOMContentLoaded', displayArcNotes);
     document.getElementById('add-note-btn').addEventListener('click', addNewNote);
-   
+    document.getElementById('arc-note-btn').addEventListener('click', arciveDiv);
+    document.getElementById('act-note-btn').addEventListener('click', activeDiv);
     arcNoteListDiv.addEventListener('click',deleteArcNote);
     arcNoteListDiv.addEventListener('click', unarchiveNote );
     noteListDiv.addEventListener('click', deleteNote);
     noteListDiv.addEventListener('click', archiveNote);
+   
 
     document.getElementById('delete-all-btn').addEventListener('click', deleteAllNotes);
 }
@@ -43,11 +45,14 @@ function addNewNote(){
     const noteTitle = document.getElementById('note-title'),
           noteContent = document.getElementById('note-content'),
           noteCategory = document.getElementById('note-categories');
+            const date = (new Date()).toISOString().split('T')[0];
+
           
           
     if(validateInput(noteTitle, noteContent)){
         let notes = getDataFromStorage();
-        let noteItem = new Note(noteID, noteTitle.value, noteContent.value, noteCategory.value);
+        const date = (new Date()).toISOString().split('T')[0];
+        let noteItem = new Note(noteID, noteTitle.value, noteContent.value, noteCategory.value, date);
         noteID++;
         notes.push(noteItem);
         createNote(noteItem);
@@ -57,6 +62,7 @@ function addNewNote(){
         noteContent.value = "";
     }
     
+    updateCounter();
     counter();
 }
 
@@ -89,8 +95,10 @@ function createNote(noteItem){
         Remove
         </button>
         <button type = "button" class = "btn archive-note-btn">
-       
         Archive
+        </button>
+        <button type ="button" class = "btn edit-note-btn">
+        Edit
         </button>
     `;
     noteListDiv.appendChild(div);
@@ -155,7 +163,8 @@ function deleteNote(e){
         });
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
-    
+    updateCounter();
+    counter();
 }
 
 function deleteArcNote(e){
@@ -212,7 +221,7 @@ function unarchiveNote(e){
         localStorage.setItem('arc', JSON.stringify(newNotesList));
     }
     
-    
+  
 }
 
 
@@ -240,45 +249,31 @@ function counter(){
         return e.category =="Task";
       });
 
-    console.log(taskCategory.length + " Task");
-  
-    
-
     const randomCategory = notes.filter(function(e){
         return e.category =="Random Thought";
       });
-
-    console.log(randomCategory.length + " Random");
-   
     
     const ideaCategory = notes.filter(function(e){
         return e.category =="Idea";
       });
-
-    console.log(ideaCategory.length + " Idea");
 
 
     const ataskCategory = arc.filter(function(e){
         return e.category =="Task";
       });
 
-    console.log(ataskCategory.length + " Task Archived");
-
     const arandomCategory = arc.filter(function(e){
         return e.category =="Random Thought";
       });
-
-    console.log(arandomCategory.length + " Random Archived");
 
     const aideaCategory = arc.filter(function(e){
         return e.category =="Idea";
       });
 
-    console.log(aideaCategory.length + " Idea Archived");
-
     const div = document.createElement('div');
     
     div.classList.add('counter-item');
+    div.setAttribute('id', 'counter-item');
     
     
     div.innerHTML = `
@@ -296,13 +291,53 @@ function counter(){
 
 counter();
 
-function updateCounter(){
-  const x = document.querySelectorAll('counter-item');
-  x.innerHTML = "";
-   
+function arciveDiv(){
+
+  
+    let noteList = document.querySelectorAll('.note-item');
+    if(noteList.length > 0){
+        noteList.forEach(item => {
+            noteListDiv.removeChild(item);
+        });
+    }
+    
+    const actBtnToggle = document.getElementById('act-note-btn');
+          actBtnToggle.classList.toggle('unactive');
+
+    const arcBtnToggle = document.getElementById('arc-note-btn');
+          arcBtnToggle.classList.toggle('unactive');
+
+    const addBtntoggle = document.getElementById('add-note-btn');
+          addBtntoggle.classList.toggle('unactive');
+    displayArcNotes();
+}
+
+function activeDiv(){
+    
+    let noteList = document.querySelectorAll('.note-item');
+    if(noteList.length > 0){
+        noteList.forEach(item => {
+            arcNoteListDiv.removeChild(item);
+        });
+    }
+    
+    const actBtnToggle = document.getElementById('act-note-btn');
+          actBtnToggle.classList.toggle('unactive');
+
+    const arcBtnToggle = document.getElementById('arc-note-btn');
+    arcBtnToggle.classList.toggle('unactive');
+
+    const addBtntoggle = document.getElementById('add-note-btn');
+          addBtntoggle.classList.toggle('unactive');
+
+    displayNotes();
 }
 
 
-
-
+function updateCounter(){
+    const parent = document.getElementById('counter');
+    const  child = document.getElementById('counter-item');
+    parent.removeChild(child);
+    
+}
 

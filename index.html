@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div class="counter"><div class="headers"><h3>Statistics</h3><div class="category">categories</div><div class="cat-item-task">Task</div>
+    <div class="counter" id="counter"><div class="headers"><h3>Statistics</h3><div class="category">categories</div><div class="cat-item-task">Task</div>
     <div class="cat-item">Random Thought</div>
-    <div class="cat-item">Idea</div></div><div class="category">Active</div><div class="category">Arcive</div> </div>
+    <div class="cat-item">Idea</div></div><div class="category">Active</div><div class="category">Arcive</div> 
+  
+</div>
     
     <div class = "note">
       <h2>Note Taking App</h2>
@@ -30,6 +32,8 @@
             <span><i class = "fas fa-plus"></i></span>
             Add Note
           </button>
+          <button type = "button" class = "btn" id = "arc-note-btn">Arch</button>
+          <button type = "button" class = "btn unactive" id = "act-note-btn">Unarch</button>
         </div>
       </div>
 
@@ -46,6 +50,7 @@
       </div>
       <div class="archive-note-list">
         <h3>Arcive</h3>
+        <div class="parent" id="parent" ><div class="child"  id="child">child</div></div>
 
       </div>
 
