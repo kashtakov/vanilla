@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root{
-    --bittersweet: #ff6f59;
+    --bittersweet: #373737;
 }
 *{
     padding: 0;
@@ -10,12 +10,12 @@
     font-family: 'Poppins', sans-serif;
 }
 body{
-    line-height: 1.5;
-    font-weight: 300;
+    display: flex;
+    background: #111;
 }
 .note{
-    max-width: 1080px;
-    margin: 3rem auto;
+    width: 1080px;
+    margin: 25px auto;
     padding: 0 1.5rem;
 }
 .note h2{
@@ -51,9 +51,9 @@ body{
     background: var(--bittersweet);
     border: 2px solid var(--bittersweet);
     color: #fff;
-    padding: 0.55rem 0;
+    padding: 0.29rem 0;
     width: 120px;
-    border-radius: 2px;
+    
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.5s ease-in-out;
@@ -66,12 +66,14 @@ body{
     background: #ff6048;
     box-shadow: 0 0 8px 0 rgba(255, 96, 72, 0.33);
 }
-.note-list{
+.note-list, .archive-note-list{
+    
     margin: 2rem 0;
     background: var(--bittersweet);
     padding: 2rem;
     border-radius: 2px;
 }
+
 .note-item{
     background: #fff;
     margin: 1rem;
@@ -92,12 +94,7 @@ body{
     color: var(--bittersweet);
 }
 
-@media(min-width: 992px){
-    .note-list{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+
 
 /*** alert ***/
 .warning{
@@ -105,10 +102,25 @@ body{
 }
 
 .counter{
-    display:flex;
+    margin: 25px 0 0 25px;
+    color: #fff;
     
 }
 
 .unactive{
     display: none;
 }
+
+select {
+    
+    width: 150px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f4f4f4;
+    
+  }

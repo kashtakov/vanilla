@@ -1,5 +1,3 @@
-// let today = new Date();
-// let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 const noteListDiv = document.querySelector('.note-list');
 const arcNoteListDiv = document.querySelector('.archive-note-list');
 const counterDiv = document.querySelector('.counter');
@@ -25,9 +23,6 @@ function eventListeners(){
     noteListDiv.addEventListener('click', deleteNote);
     noteListDiv.addEventListener('click', archiveNote);
     noteListDiv.addEventListener('click', editNote);
-   
-   
-
     document.getElementById('delete-all-btn').addEventListener('click', deleteAllNotes);
 }
 
@@ -352,21 +347,26 @@ function updateCounter(){
 }
 
 function editNote(e){
-    const noteTitleE = document.getElementById('note-title'),
-          noteContent = document.getElementById('note-content');
 
+    const noteTitleFeed = document.getElementById('note-title'),
+          noteContentFeed = document.getElementById('note-content');
+          
     if(e.target.classList.contains('edit-note-btn')){
-        
-       
+        let notes = getDataFromStorage();
         //console.log(e.target.parentElement);
         e.target.parentElement.remove(); // removing from DOM
+        
         let divID = e.target.parentElement.dataset.id;
-        let notes = arcDataFromStorage();
+        
+        let titleFeed = notes.find(x => x.id === parseInt(divID)).title;
+        noteTitleFeed.value = titleFeed;
+        let contentFeed = notes.find(x => x.id === parseInt(divID)).content;
+        noteContentFeed.value = contentFeed;
        
         let newNotesList = notes.filter(item => {
             return item.id !== parseInt(divID);
         });
-        noteTitleE.value = editedTitle.items.id;
+        
         localStorage.setItem('notes', JSON.stringify(newNotesList));
     }
       
