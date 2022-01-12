@@ -41,11 +41,19 @@ function arcDataFromStorage(){
 function addNewNote(){
     const noteTitle = document.getElementById('note-title'),
           noteContent = document.getElementById('note-content'),
-          noteCategory = document.getElementById('note-categories');
-            const date = (new Date()).toISOString().split('T')[0];
+          noteCategory = document.getElementById('note-categories'),
+          quoteSearch = document.getElementById('note-content');
+    quoteString = quoteSearch.value;
+    quoteArr = quoteString.split(' ');
+    console.log(quoteArr);
 
-          
-          
+    parseDate = quoteArr.forEach((element) =>{
+        if(element === /([0-9]{4})-([0-9]{2})-([0-9]{2})/){
+            console.log(element);
+        }
+    });
+    
+             
     if(validateInput(noteTitle, noteContent)){
         let notes = getDataFromStorage();
         const date = (new Date()).toISOString().split('T')[0];
@@ -58,7 +66,6 @@ function addNewNote(){
         noteTitle.value = "";
         noteContent.value = "";
     }
-    
     updateCounter();
     counter();
 }
